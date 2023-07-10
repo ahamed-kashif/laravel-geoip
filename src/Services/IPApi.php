@@ -30,7 +30,7 @@ class IPApi extends AbstractService
     public function boot()
     {
         $base = [
-            'base_uri' => 'http://ip-api.com/',
+            'base_uri' => $this->config('base_uri'),
             'headers' => [
                 'User-Agent' => 'Laravel-GeoIP',
             ],
@@ -42,8 +42,8 @@ class IPApi extends AbstractService
 
         // Using the Pro service
         if ($this->config('key')) {
-            $base['base_uri'] = ($this->config('secure') ? 'https' : 'http') . '://pro.ip-api.com/';
-            $base['query']['key'] = $this->config('key');
+            $base['base_uri'] = ($this->config('secure') ? 'https' : 'http') . '://'.$this->config('pro_uri').'/';
+            $base['query']['access_key'] = $this->config('key');
         }
 
         $this->client = new HttpClient($base);
@@ -60,7 +60,7 @@ class IPApi extends AbstractService
     public function locate($ip)
     {
         // Get data from client
-        $data = $this->client->get('json/' . $ip);
+        $data = $this->client->get('api/' . $ip);
 
         // Verify server response
         if ($this->client->getErrors() !== null) {

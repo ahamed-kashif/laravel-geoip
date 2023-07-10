@@ -71,6 +71,7 @@ return [
             'key' => env('IPAPI_KEY'),
             'continent_path' => storage_path('app/continents.json'),
             'lang' => 'en',
+            'base_uri' => env('IPAPI_BASE_URI','')
         ],
 
         'ipgeolocation' => [
